@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login and Registration Page</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <style>
+    body, html {
+      height: 100%;
+    }
+
+    .container {
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Login</h2>
+        <form method="post" action="/login">
+		  <div class="form-group row">
+		   <label for="username" class="col-sm-3 col-form-label">Username</label>
+		   <div class="col-sm-7">
+		     <input type="text" class="form-control" id="username" name="username" required>
+		   </div>
+		  </div>
+		  <div class="form-group row">
+		   <label for="password" class="col-sm-3 col-form-label">Password</label>
+		   <div class="col-sm-7">
+		     <input type="password" class="form-control" id="password" name="password" required>
+		   </div>
+		  </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <br>
+        <a href="/register" class="btn btn-secondary">Register</a>
+      </div>
+	  <div class="col">
+		<h2>New Zealand animal pest</h2>
+		<div class="d-flex align-items-start" style="max-height: 100%; max-width: 100%;">
+		  <img src="https://www.bionet.nz/themes/bionet/images/bionet-logo-med.png" class="img-fluid" alt="External Page Preview" style="object-fit: contain;">
+		</div>
+		<br><br>
+		<button onclick="window.location.href='https://www.bionet.nz/control/how-do-i-identify-my-pest'" class="btn btn-info">Go to New Zealand animal pest</button>
+	  </div>
+    </div>
+  </div>
+</body>
+</html>
