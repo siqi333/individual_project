@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Edit</title>
+</head>
+<body>
+    <!-- Profile Update Form -->
+<form action="{{ url_for('staffedit') }}" method="POST">
+    <h2>Update Your Profile</h2>
+    <label for="staffnumber">Staff Number:</label>
+    <input type="text" value="{{ account[0] }}" id="staffnumber" name="staffnumber" maxlength="6" pattern="[0-9]{6}">
+    <label for="firstname">First Name:</label>
+    <input type="text" value="{{ account[1] }}" id="firstname" name="firstname" required>
+    <label for="lastname">Last Name:</label>
+    <input type="text" value="{{ account[2] }}" id="lastname" name="lastname" required>
+    <label for="email">Email:</label>
+    <input type="email" value="{{ account[3] }}" id="email" name="email" required>
+    <label for="workphonenumber">Work Phone Number:</label>
+    <input type="text" value="{{ account[4] }}" id="workphonenumber" name="workphonenumber" pattern="^(\(?0\d\)? ?(\d{7}|\d{2,3} ?\d{4})|\(?02\d\)? ?(\d{6,8}|\d{3,4} ?\d{3,4})|0800\s\d{5,8})$" required>
+    <label for="hiredate">Hire Date:</label>
+    <input type="date" value="{{ account[7] }}" id="hiredate" name="hiredate" required>
+    <label for="position">Position:</label>
+    <input type="text" value="{{ account[5] }}" id="position" name="position" required>
+    <label for="department">Department:</label>
+    <input type="text" value="{{ account[6] }}" id="department" name="department" required>
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+        <option value="Active" {% if account[8] == 'Active' %}selected{% endif %}>Active</option>
+        <option value="Inactive" {% if account[8] == 'Inactive' %}selected{% endif %}>Inactive</option>
+    </select>
+    <!-- Additional fields as necessary -->
+    <input type="submit" value="Update Profile">
+</form>
+</body>
+</html>

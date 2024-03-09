@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <a href="{{ url_for('guideadd') }}">Add Guide</a>
+<h2>Manage Your Profile</h2>
+<form method="post">
+    <label for="adminName">Name:</label>
+    <input type="text" id="adminName" name="name" required>
+    <label for="adminEmail">Email:</label>
+    <input type="email" id="adminEmail" name="email" required>
+    <!-- Add more personal information fields as necessary -->
+    <label for="adminPassword">New Password:</label>
+    <input type="password" id="adminPassword" name="password">
+    <button type="submit">Update Profile</button>
+</form>
+
+<h2>Pest Controllers</h2>
+<button onclick="location.href='add_pest_controller.html'">Add New Pest Controller</button>
+<div id="pestControllersList">
+    <!-- Dynamically load Pest Controller profiles here -->
+</div>
+
+<h2>Add Pest Controller</h2>
+<form action="add_pest_controller.php" method="post">
+    <label for="pcName">Name:</label>
+    <input type="text" id="pcName" name="name" required>
+    <label for="pcEmail">Email:</label>
+    <input type="email" id="pcEmail" name="email" required>
+    <!-- Add more fields as necessary -->
+    <button type="submit">Add Pest Controller</button>
+</form>
+
+<h2>Staff Members</h2>
+<button onclick="location.href='add_staff.html'">Add New Staff Member</button>
+<div id="staffList">
+    <!-- Dynamically load Staff profiles here -->
+</div>
+
+<h2>Add Staff Member</h2>
+<form action="add_staff.php" method="post">
+    <label for="staffName">Name:</label>
+    <input type="text" id="staffName" name="name" required>
+    <label for="staffEmail">Email:</label>
+    <input type="email" id="staffEmail" name="email" required>
+    <!-- Add more fields as necessary -->
+    <button type="submit">Add Staff</button>
+</form>
+
+<h2>Guide Management</h2>
+<button onclick="location.href='add_guide_entry.html'">Add New Entry</button>
+<div id="guideList">
+    <!-- Dynamically load Guide entries here -->
+</div>
+
+<h2>Add Guide Entry</h2>
+<form action="add_guide_entry.php" method="post" enctype="multipart/form-data">
+    <label for="animalName">Animal Name:</label>
+    <input type="text" id="animalName" name="name" required>
+    <!-- Add more fields as necessary for scientific name, description, etc. -->
+    <label for="primaryImage">Primary Image:</label>
+    <input type="file" id="primaryImage" name="primaryImage" required>
+    <button type="submit">Add Entry</button>
+</form>
+
+<div id="adminPanel" style="display:none;">
+    <!-- Admin-specific elements -->
+    <h2>Administrator Panel</h2>
+    <!-- Additional admin elements here -->
+</div>
+<script src="dashboard.js"></script>
+
+<html>

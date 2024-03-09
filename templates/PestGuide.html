@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Pest Guide</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link your CSS file for styling -->
+</head>
+<body>
+    <h1>Animal Pest Guide</h1>
+    <!-- table two columns -->
+    <table>
+        <tr>
+            <th>Description</th>
+            <th>Image</th>
+        </tr>
+        {% for g in guide %}
+        <tr>
+            <td>{{ g[1] }}</td>
+            <td><img src="../static/images/{{ g[2] }}" width="200" height="200"></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <!-- <div class="animal-pest" id="pest-1">
+        <h2 class="animal-name">Common Name (Animal ID)</h2>
+        <img src="path/to/primary-image.jpg" alt="Primary Image" class="primary-image">
+        <p><strong>Description:</strong> Short description of the animal pest.</p>
+        <p><strong>Distribution:</strong> Areas where the animal pest is commonly found.</p>
+        <p><strong>Size:</strong> Average size of the animal.</p>
+        <p><strong>Droppings:</strong> Description of the droppings.</p>
+        <p><strong>Foot Prints:</strong> Description of the footprints.</p>
+        <p><strong>Impacts:</strong> Negative impacts the animal has on the environment or economy.</p>
+        <p><strong>Control Methods:</strong> Recommended ways to control or manage the pest population.</p>
+        <div class="additional-images">
+            <img src="path/to/additional-image1.jpg" alt="Additional Image 1">
+            <img src="path/to/additional-image2.jpg" alt="Additional Image 2">
+            
+        </div>
+    </div> -->
+    <!-- Repeat the above div for each animal pest you want to include in the guide -->
+
+<script src="script.js"></script> <!-- Link your JavaScript file for any dynamic behavior -->
+</body>
+</html>

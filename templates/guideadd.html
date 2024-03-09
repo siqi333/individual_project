@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Guide</title>
+</head>
+<body>
+
+<form action="{{ url_for('guideadd') }}" enctype="multipart/form-data" method="POST">
+    <h2>Add Guide</h2>
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required>
+    <label for="distribution">Distribution:</label>
+    <input type="text" id="distribution" name="distribution">
+    <label for="size">Size:</label>
+    <input type="text" id="size" name="size">
+    <label for="droppings">Droppings:</label>
+    <input type="text" id="droppings" name="droppings">
+    <label for="footprints">Foot Prints:</label>
+    <textarea name="footprints" id="impacts" cols="20" rows="5"></textarea>
+    <label for="impacts">Impacts:</label>
+    <textarea name="impacts" id="impacts" cols="20" rows="5"></textarea>
+    <label for="controlmethods">Control Methods:</label>
+    <textarea name="controlmethods" id="controlmethods" cols="20" rows="5"></textarea>
+    <label for="primaryimage">Primary Image:</label>
+    <input type="file" id="primaryimage" accept=".gif,.jpg,.jpeg,.png" name="primaryimage">
+    <label for="secondaryimage">Secondary Image:</label>
+    <input type="file" id="secondaryimage" accept=".gif,.jpg,.jpeg,.png" name="secondaryimage">
+    <input type="submit" value="Add Guide">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<div class="Staff">
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <h2>Staff Profiles</h2>
+    <!-- This section would be dynamically generated. Example for illustration: -->
+</div>
+
+<a href="{{ url_for('staffedit') }}">Edit Profile</a>
+<a href="{{ url_for('guideadd') }}">Add Guide</a>
+<!-- Password Change Form -->
+<form action="/changePassword" method="POST">
+    <h2>Change Your Password</h2>
+    <label for="currentPassword">Current Password:</label>
+    <input type="password" id="currentPassword" name="currentPassword" required>
+    <label for="newPassword">New Password:</label>
+    <input type="password" id="newPassword" name="newPassword" required>
+    <label for="confirmNewPassword">Confirm New Password:</label>
+    <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+    <input type="submit" value="Change Password">
+</form>
+
+<!-- Add New Pest Form -->
+<form action="/addPest" method="POST" enctype="multipart/form-data">
+    <h2>Add New Pest</h2>
+    <label for="commonName">Common Name:</label>
+    <input type="text" id="commonName" name="commonName" required>
+    <label for="scientificName">Scientific Name:</label>
+    <input type="text" id="scientificName" name="scientificName">
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
+    <!-- Additional fields for distribution, size, etc. -->
+    <label for="primaryImage">Primary Image:</label>
+    <input type="file" id="primaryImage" name="primaryImage" required>
+    <label for="additionalImages">Additional Images:</label>
+    <input type="file" id="additionalImages" name="additionalImages" multiple>
+    <input type="submit" value="Add Pest">
+</form>
+
+<div id="staffPanel" style="display:none;">
+    <!-- Staff-specific elements -->
+    <h2>Staff Panel</h2>
+    <!-- Additional staff elements here -->
+</div>
+<script src="dashboard.js"></script>
+
+<html>

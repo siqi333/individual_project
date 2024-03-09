@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<div class="PestController">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Management</title>
+
+    <title>Pest Guide</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <h2>Manage Profile</h2>
+    <form action="{{ url_for('update_profile', id_number=profile['id_number']) }}" method="POST">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" value="{{ profile['first_name'] }}" required>
+        
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" value="{{ profile['last_name'] }}" required>
+        
+        <label for="pestcontrolleridnumber">Pest Controller Id Number:</label>
+        <input type="text" id="pestcontrolleridnumber" name="pestcontrolleridnumber" value="{{ profile['pest_controller_id_number'] }}" required>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" value="{{ profile['address'] }}" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ profile['email'] }}" required>
+        
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" value="{{ profile['phone_number'] }}" required>
+        
+        <label for="datejoined">Date Joined:</label>
+        <input type="text" id="datejoined" name="datejoined" value="{{ profile['date_joined'] }}" required>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Active" {{ 'selected' if profile['status'] == 'Active' else '' }}>Active</option>
+            <option value="Inactive" {{ 'selected' if profile['status'] == 'Inactive' else '' }}>Inactive</option>
+        </select>
+        
+        <button type="submit">Update Profile</button>
+    </form>
+    
+<script src="dashboard.js"></script>
+
+</html>
