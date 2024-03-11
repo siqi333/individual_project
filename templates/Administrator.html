@@ -1,72 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
-    <a href="{{ url_for('logout') }}">Logout</a>
-    <a href="{{ url_for('guideadd') }}">Add Guide</a>
-<h2>Manage Your Profile</h2>
-<form method="post">
-    <label for="adminName">Name:</label>
-    <input type="text" id="adminName" name="name" required>
-    <label for="adminEmail">Email:</label>
-    <input type="email" id="adminEmail" name="email" required>
-    <!-- Add more personal information fields as necessary -->
-    <label for="adminPassword">New Password:</label>
-    <input type="password" id="adminPassword" name="password">
-    <button type="submit">Update Profile</button>
-</form>
 
-<h2>Pest Controllers</h2>
-<button onclick="location.href='add_pest_controller.html'">Add New Pest Controller</button>
-<div id="pestControllersList">
-    <!-- Dynamically load Pest Controller profiles here -->
-</div>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin Panel</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
 
-<h2>Add Pest Controller</h2>
-<form action="add_pest_controller.php" method="post">
-    <label for="pcName">Name:</label>
-    <input type="text" id="pcName" name="name" required>
-    <label for="pcEmail">Email:</label>
-    <input type="email" id="pcEmail" name="email" required>
-    <!-- Add more fields as necessary -->
-    <button type="submit">Add Pest Controller</button>
-</form>
+<body>
 
-<h2>Staff Members</h2>
-<button onclick="location.href='add_staff.html'">Add New Staff Member</button>
-<div id="staffList">
-    <!-- Dynamically load Staff profiles here -->
-</div>
+	<header class="container-fluid bg-dark text-white py-3 mb-4">
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<h1>Admin Panel</h1>
+			</div>
+			<div class="col-12 col-md-6 d-flex justify-content-end align-items-center">
+				<a href="{{ url_for('guide') }}" class="btn btn-primary">Check Guide</a>
+				<a href="{{ url_for('guideadd') }}" class="btn btn-primary">Add Guide</a>
+				<a href="{{ url_for('logout') }}" class="btn btn-danger me-2">Logout</a>
+			</div>
+		</div>
+	</header>
 
-<h2>Add Staff Member</h2>
-<form action="add_staff.php" method="post">
-    <label for="staffName">Name:</label>
-    <input type="text" id="staffName" name="name" required>
-    <label for="staffEmail">Email:</label>
-    <input type="email" id="staffEmail" name="email" required>
-    <!-- Add more fields as necessary -->
-    <button type="submit">Add Staff</button>
-</form>
+	<main class="container">
+		<!-- Change Password Section -->
+		<section class="mb-5">
+			<h2>Change Admin Password</h2>
+			<h3 style="color: red;">{{ msg }}</h3>
+			<form action="/changePassword" method="POST" class="row g-3">
+				<div class="col-md-4">
+					<label for="currentPassword" class="form-label">Current Password:</label>
+					<input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+				</div>
+				<div class="col-md-4">
+					<label for="newPassword" class="form-label">New Password:</label>
+					<input type="password" class="form-control" id="newPassword" name="newPassword" required>
+				</div>
+				<div class="col-md-4">
+					<label for="confirmNewPassword" class="form-label">Confirm New Password:</label>
+					<input type="password" class="form-control" id="confirmNewPassword" name="confirmNewPassword"
+						required>
+				</div>
+				<div class="col-12">
+					<button type="submit" class="btn btn-success">Change Password</button>
+				</div>
+			</form>
+		</section>
 
-<h2>Guide Management</h2>
-<button onclick="location.href='add_guide_entry.html'">Add New Entry</button>
-<div id="guideList">
-    <!-- Dynamically load Guide entries here -->
-</div>
+		<!-- Profile Management Section -->
+		<h2>Manage Admin Profile</h2>
+		<h3 style="color: red;">{{ msg2 }}</h3>
+		<form action="{{ url_for('update_profile_admin') }}" method="POST" class="row g-3">
+			<div class="col-md-6">
+				<label for="firstname" class="form-label">First Name:</label>
+				<input type="text" class="form-control" id="firstname" name="firstname" required>
+			</div>
+			<div class="col-md-6">
+				<label for="lastname" class="form-label">Last Name:</label>
+				<input type="text" class="form-control" id="lastname" name="lastname" required>
+			</div>
+			<div class="col-12">
+				<label for="adminid" class="form-label">Admin ID:</label>
+				<input type="text" class="form-control" id="pestcontrolleridnumber" name="pestcontrolleridnumber"
+					required>
+			</div>
+			<div class="col-12">
+				<label for="address" class="form-label">Address:</label>
+				<input type="text" class="form-control" id="address" name="address" required>
+			</div>
+			<div class="col-md-6">
+				<label for="email" class="form-label">Email:</label>
+				<input type="email" class="form-control" id="email" name="email" required>
+			</div>
+			<div class="col-md-6">
+				<label for="phone" class="form-label">Phone Number:</label>
+				<input type="tel" class="form-control" id="phone" name="phone" required>
+			</div>
+			<div class="col-12">
+				<label for="datejoined" class="form-label">Date Joined:</label>
+				<input type="date" class="form-control" id="datejoined" name="datejoined" required>
+			</div>
+			<div class="col-12">
+				<label for="status" class="form-label">Status:</label>
+				<select class="form-select" id="status" name="status" required>
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
+				</select>
+			</div>
+			<div class="col-12">
+				<button type="submit" class="btn btn-primary">Update Profile</button>
+			</div>
+		</form>
 
-<h2>Add Guide Entry</h2>
-<form action="add_guide_entry.php" method="post" enctype="multipart/form-data">
-    <label for="animalName">Animal Name:</label>
-    <input type="text" id="animalName" name="name" required>
-    <!-- Add more fields as necessary for scientific name, description, etc. -->
-    <label for="primaryImage">Primary Image:</label>
-    <input type="file" id="primaryImage" name="primaryImage" required>
-    <button type="submit">Add Entry</button>
-</form>
+		<h2>View Pest Controller Profile</h2>
+		<form method="GET" class="row g-3">
+			<table border="1">
+				<tr>
+					<th>Controller ID</th>
+					<th>User ID</th>
+					<th>Firstname</th>
+					<th>Lastname</th>
+					<th>Address</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Date Joined</th>
+					<th>Status</th>
+				</tr>
+				{% for row in pestcon_rows %}
+				<tr>
+					<td>{{ row.controller_id }}</td>
+					<td>{{ row.user_id }}</td>
+					<td>{{ row.first_name }}</td>
+					<td>{{ row.last_name }}</td>
+					<td>{{ row.address }}</td>
+					<td>{{ row.email }}</td>
+					<td>{{ row.phone }}</td>
+					<td>{{ row.date_joined }}</td>
+					<td>{{ row.status }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</form>
 
-<div id="adminPanel" style="display:none;">
-    <!-- Admin-specific elements -->
-    <h2>Administrator Panel</h2>
-    <!-- Additional admin elements here -->
-</div>
-<script src="dashboard.js"></script>
+		<h2>Manage Pest Controller Profile</h2>
+		<h3 style="color: red;">{{ msg3 }}</h3>
+		<form action="{{ url_for('pestcon_update_profile_by_others') }}" method="POST" class="row g-3">
+			<div class="col-md-6">
+				<label for="pestcontrolleridnumber" class="form-label">User ID:</label>
+				<input type="text" class="form-control" id="pestcontrolleruserid" name="pestcontrolleruserid" required>
+			</div>
+			<div class="col-md-6">
+				<label for="pestcontrolleridnumber" class="form-label">Pest Controller ID:</label>
+				<input type="text" class="form-control" id="pestcontrolleridnumber" name="pestcontrolleridnumber"
+					required>
+			</div>
+			<div class="col-md-6">
+				<label for="firstname" class="form-label">First Name:</label>
+				<input type="text" class="form-control" id="firstname" name="firstname" required>
+			</div>
+			<div class="col-md-6">
+				<label for="lastname" class="form-label">Last Name:</label>
+				<input type="text" class="form-control" id="lastname" name="lastname" required>
+			</div>
+			<div class="col-12">
+				<label for="address" class="form-label">Address:</label>
+				<input type="text" class="form-control" id="address" name="address" required>
+			</div>
+			<div class="col-md-6">
+				<label for="email" class="form-label">Email:</label>
+				<input type="email" class="form-control" id="email" name="email" required>
+			</div>
+			<div class="col-md-6">
+				<label for="phone" class="form-label">Phone Number:</label>
+				<input type="tel" class="form-control" id="phone" name="phone" required>
+			</div>
+			<div class="col-md-6">
+				<label for="datejoined" class="form-label">Date Joined:</label>
+				<input type="date" class="form-control" id="datejoined" name="datejoined" required>
+			</div>
+			<div class="col-md-6">
+				<label for="status" class="form-label">Status:</label>
+				<select class="form-select" id="status" name="status" required>
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
+				</select>
+			</div>
+			<div class="col-12">
+				<button type="submit" class="btn btn-primary">Update Profile</button>
+			</div>
+		</form>
 
-<html>
+		<h2>View Staff Controller Profile</h2>
+		<form method="GET" class="row g-3">
+			<table border="1">
+				<tr>
+					<th>Staff ID</th>
+					<th>User ID</th>
+					<th>Staff Number</th>
+					<th>Firstname</th>
+					<th>Lastname</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Hire Date</th>
+					<th>Position</th>
+					<th>Department</th>
+					<th>Status</th>
+				</tr>
+				{% for row in staff_rows %}
+				<tr>
+					<td>{{ row.staff_id }}</td>
+					<td>{{ row.user_id }}</td>
+					<td>{{ row.staff_number }}</td>
+					<td>{{ row.first_name }}</td>
+					<td>{{ row.last_name }}</td>
+					<td>{{ row.email }}</td>
+					<td>{{ row.phone }}</td>
+					<td>{{ row.hire_date }}</td>
+					<td>{{ row.position }}</td>
+					<td>{{ row.department }}</td>
+					<td>{{ row.status }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</form>
+
+		<section class="mb-5">
+			<h2>Manage Staff Profile</h2>
+			<h3 style="color: red;">{{ msg4 }}</h3>
+			<form action="{{ url_for('staff_update_profile_by_others') }}" method="POST" class="row g-3">
+				<div class="col-md-4">
+					<label for="staffnumber" class="form-label">Staff Number:</label>
+					<input type="text" class="form-control" id="staffnumber" name="staffnumber" maxlength="6"
+						pattern="[0-9]{6}">
+				</div>
+				<div class="col-md-4">
+					<label for="staff_user" class="form-label">Staff User ID:</label>
+					<input type="text" class="form-control" id="staff_user" name="staff_user" maxlength="6"">
+				</div>
+				<div class="col-md-4">
+					<label for="firstname" class="form-label">First Name:</label>
+					<input type="text" class="form-control" id="firstname" name="firstname" required>
+				</div>
+				<div class="col-md-4">
+					<label for="lastname" class="form-label">Last Name:</label>
+					<input type="text" class="form-control" id="lastname" name="lastname" required>
+				</div>
+				<div class="col-md-6">
+					<label for="email" class="form-label">Email:</label>
+					<input type="email" class="form-control" id="email" name="email" required>
+				</div>
+				<div class="col-md-6">
+					<label for="workphonenumber" class="form-label">Work Phone Number:</label>
+					<input type="text" class="form-control" id="workphonenumber" name="workphonenumber"
+						pattern="^(\(?0\d\)? ?(\d{7}|\d{2,3} ?\d{4})|\(?02\d\)? ?(\d{6,8}|\d{3,4} ?\d{3,4})|0800\s\d{5,8})$"
+						required>
+				</div>
+				<div class="col-md-6">
+					<label for="hiredate" class="form-label">Hire Date:</label>
+					<input type="date" class="form-control" id="hiredate" name="hiredate" required>
+				</div>
+				<div class="col-md-6">
+					<label for="position" class="form-label">Position:</label>
+					<input type="text" class="form-control" id="position" name="position" required>
+				</div>
+				<div class="col-md-6">
+					<label for="department" class="form-label">Department:</label>
+					<input type="text" class="form-control" id="department" name="department" required>
+				</div>
+				<div class="col-md-6">
+					<label for="status" class="form-label">Status:</label>
+					<select class="form-select" id="status" name="status" required>
+						<option value="Active">Active</option>
+						<option value="Inactive">Inactive</option>
+					</select>
+				</div>
+				<div class="col-12">
+					<button type="submit" class="btn btn-primary">Update Profile</button>
+				</div>
+			</form>
+		</section>
+
+	</main>
+
+	<!-- Bootstrap Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

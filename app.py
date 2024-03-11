@@ -13,7 +13,7 @@ from os.path import join, dirname, realpath
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = 'HelloWorld'
+app.secret_key = 'emma_seesion_key'
 hashing = Hashing(app)  #create an instance of hashing
 
 UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/images')
@@ -37,15 +37,33 @@ def index():
 
 @app.route("/administrator")
 def administrator():
+    # if session['loggedin'] == True:
+    #     return render_template("Administrator.html")
+    # else:
+    #     return redirect(url_for('login'))
     return render_template("Administrator.html")
 
 @app.route("/pestcontroller")
 def pestcontroller():
-    return render_template("PestController.html")
+    cursor = getCursor()
+    cursor.execute(
+		'select * from controller_profile;'
+	)
+    pestcon_rows = cursor.fetchall()
+    return render_template("PestController.html", pestcon_rows=pestcon_rows)
 
 @app.route("/staff")
 def staff():
-    return render_template("Staff.html")
+    cursor = getCursor()
+    cursor.execute(
+		'select * from staff_profile;'
+	)
+    staff_rows = cursor.fetchall()
+    cursor.execute(
+		'select * from controller_profile;'
+	)
+    pestcon_rows = cursor.fetchall()
+    return render_template("staff.html", staff_rows=staff_rows, pestcon_rows=pestcon_rows)
 
 @app.route("/logout")
 def logout():
@@ -208,6 +226,234 @@ def guide():
     )
     guide = cursor.fetchall()
     return render_template("PestGuide.html", guide=guide)
+
+@app.route("/guidedetail")
+def guidedetail():
+    animal_id = request.args.get('animal_id')
+    cursor = getCursor()
+    cursor.execute(
+        "select * from animal_guide where animal_id = %s;",
+        (animal_id,)
+    )
+    guide = cursor.fetchone()
+    return render_template("PestGuideDetail.html", guide=guide)
+
+# update controller profile
+@app.route("/update_profile", methods=["GET","POST"])
+def update_profile():
+    cursor = getCursor()
+    # cursor = connection.cursor(dictionary=True)
+    
+    if request.method == "POST":
+        # Extract data from form submission
+        first_name = request.form.get('firstname')
+        last_name = request.form.get('lastname')
+        address = request.form.get('address')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        date_joined = request.form.get('datejoined')
+        # date_joined_str = f"str_to_date('{date_joined}','%Y%m%d')"
+        status = request.form.get('status')
+        controller_id = request.form.get('pestcontrolleridnumber')
+        user_id = session['id']
+
+        # check if profile existing
+        cursor = getCursor()
+        cursor.execute(
+			'select 1 from controller_profile where controller_id=%s;', (controller_id,)
+        )
+        profile = cursor.fetchone()
+        if profile is None:
+            cursor.execute(
+				'insert into controller_profile values (%s, %s, %s, %s, %s, %s, %s, %s, %s);',
+                (controller_id, user_id, first_name, last_name, address, email, phone, date_joined, status)
+            )
+            msg = 'profile not exist, added as new'
+            return render_template('PestController.html', msg2=msg)
+        
+        # Update profile in database
+        update_query = """
+        UPDATE controller_profile
+        SET first_name = %s, last_name = %s, address = %s, email = %s, phone = %s, date_joined = %s, status = %s
+        WHERE controller_id = %s
+        """
+        cursor.execute(update_query, (first_name, last_name, address, email, phone, date_joined, status, controller_id))
+        connection.commit()
+        msg = 'Proifle updated'
+        return render_template('PestController.html', msg2=msg)
+        
+    # Handle GET request
+    else:
+        # Fetch the existing profile data
+        select_query = "SELECT * FROM controller_profile WHERE controller_id = %s"
+        cursor.execute(select_query, (controller_id,))
+        profile = cursor.fetchone()
+        
+        if profile:
+            # Render the form with profile data
+            return render_template('PestController.html')
+        else:
+            return "Profile not found", 404
+
+# update admin profile
+@app.route("/update_profile_admin", methods=["GET","POST"])
+def update_profile_admin():
+    cursor = getCursor()
+    # cursor = connection.cursor(dictionary=True)
+    
+    if request.method == "POST":
+        # Extract data from form submission
+        first_name = request.form.get('firstname')
+        last_name = request.form.get('lastname')
+        address = request.form.get('address')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        date_joined = request.form.get('datejoined')
+        status = request.form.get('status')
+        admin_id = request.form.get('adminid')
+        user_id = session['id']
+
+        # check if profile existing
+        cursor = getCursor()
+        cursor.execute(
+			'select 1 from admin_profile where admin_id=%s;', (admin_id,)
+        )
+        profile = cursor.fetchone()
+        if profile is None:
+            cursor.execute(
+				'insert into admin_profile values (%s, %s, %s, %s, %s, %s, %s, %s, %s);',
+                (admin_id, user_id, first_name, last_name, address, email, phone, date_joined, status)
+            )
+            msg = 'profile not exist, added as new'
+            return render_template('Administrator.html', msg2=msg)
+        
+        # Update profile in database
+        update_query = """
+        UPDATE admin_profile
+        SET first_name = %s, last_name = %s, address = %s, email = %s, phone = %s, date_joined = %s, status = %s
+        WHERE admin_id = %s
+        """
+        cursor.execute(update_query, (first_name, last_name, address, email, phone, date_joined, status, admin_id))
+        connection.commit()
+        msg = 'Proifle updated'
+        return render_template('Administrator.html', msg2=msg)
+
+@app.route("/pestcon_update_profile_by_others", methods=["GET","POST"])
+def pestcon_update_profile_by_others():
+    cursor = getCursor()
+    # cursor = connection.cursor(dictionary=True)
+    
+    if request.method == "POST":
+        # Extract data from form submission
+        first_name = request.form.get('firstname')
+        last_name = request.form.get('lastname')
+        address = request.form.get('address')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        date_joined = request.form.get('datejoined')
+        date_joined_str = f"str_to_date('{date_joined}','%Y%m%d')"
+        status = request.form.get('status')
+        controller_id = request.form.get('pestcontrolleridnumber')
+        user_id = request.form.get('pestcontrolleruserid')
+
+        # check if profile existing
+        cursor = getCursor()
+        cursor.execute(
+			'select 1 from controller_profile where controller_id=%s;', (controller_id,)
+        )
+        profile = cursor.fetchone()
+        if profile is None:
+            cursor.execute(
+				'insert into controller_profile values (%s, %s, %s, %s, %s, %s, %s, %s, %s);',
+                (controller_id, user_id, first_name, last_name, address, email, phone, date_joined, status)
+            )
+            msg = 'profile not exist, added as new'
+            return render_template('Administrator.html', msg3=msg)
+        
+        # Update profile in database
+        update_query = """
+        UPDATE controller_profile
+        SET first_name = %s, last_name = %s, address = %s, email = %s, phone = %s, date_joined = %s, status = %s
+        WHERE controller_id = %s
+        """
+        cursor.execute(update_query, (first_name, last_name, address, email, phone, date_joined, status, controller_id))
+        connection.commit()
+        msg = 'Proifle updated'
+        return render_template('Administrator.html', msg3=msg)
+
+@app.route("/staff_update_profile_by_others", methods=["GET", "POST"])
+def staff_update_profile_by_others():
+    if request.method == "POST":
+        msg = ''
+        staffnumber = request.form.get("staffnumber")
+        firstname = request.form.get("firstname")
+        lastname = request.form.get("lastname")
+        email = request.form.get("email")
+        workphonenumber = request.form.get("workphonenumber")
+        position = request.form.get("position")
+        department = request.form.get("department")
+        hiredate = request.form.get("hiredate")
+        status = request.form.get("status")
+        user_id = request.form.get("staff_user")
+
+        # check if the staff already exists
+        cursor = getCursor()
+        cursor.execute('select staff_number from staff_profile where user_id = %s;', (user_id,))
+        account = cursor.fetchone()
+        if account is None:
+            print(user_id, staffnumber, firstname, lastname, email, workphonenumber, hiredate, position, department, status)
+            cursor.execute(
+                'insert into staff_profile(user_id, staff_number, first_name, last_name, email, phone, hire_date, position, department, status) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);', 
+                (user_id, staffnumber, firstname, lastname, email, workphonenumber, hiredate, position, department, status)
+            )
+            msg = 'profile not exist, added as new'
+            return render_template('Administrator.html', msg4=msg)
+        
+        cursor = getCursor()
+        cursor.execute(
+            'update staff_profile set staff_number = %s, first_name = %s, last_name = %s, email = %s, phone = %s, position = %s, department = %s, hire_date = %s, status = %s where user_id = %s;',
+            (staffnumber, firstname, lastname, email, workphonenumber, position, department, hiredate, status, user_id)
+        )
+        msg = 'Proifle updated'
+        return render_template('Administrator.html', msg4=msg)
+    
+    cursor = getCursor()
+    cursor.execute(
+        'select staff_number, first_name, last_name, email, phone, position, department, hire_date, status from staff_profile where user_id = %s;',
+        (session['id'],)
+    )
+    account = cursor.fetchone()
+    return render_template("staffedit.html", account=account)
+
+# change pest controller password
+@app.route('/changePassword', methods=['POST'])
+def change_password():
+    current_user = session['id']
+    cursor = getCursor()
+    cursor.execute(
+		"select a.password_hash from user a where user_id=%s;", (current_user,)
+    )
+    real_current_password = cursor.fetchone()
+    
+    current_password = request.form.get("currentPassword")
+    new_password = request.form.get("newPassword")
+    confirm_new_password = request.form.get("confirmNewPassword")
+    hashed_current_password = hashing.hash_value(current_password, salt='emma_use_salt')
+
+
+    if new_password != confirm_new_password:
+        msg = 'Please enter same new passowrd'
+    # elif not hashing.check_value(real_current_password, current_password, salt='emma_use_salt'):
+    elif real_current_password[0] != hashed_current_password:
+        msg = 'Old password error'
+    else:
+        hashed_password = hashing.hash_value(new_password, salt='emma_use_salt')
+        cursor.execute(
+            "update user a set a.password_hash=%s where user_id=%s;", (hashed_password, current_user, )
+        )
+        msg = 'Update password succeed'
+
+    return render_template('index.html', msg=msg)
 
 if __name__ == "__main__":
     app.run()

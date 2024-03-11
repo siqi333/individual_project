@@ -1,27 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animal Pest Guide</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link your CSS file for styling -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animal Pest Guide</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1>Animal Pest Guide</h1>
-    <!-- table two columns -->
-    <table>
-        <tr>
-            <th>Description</th>
-            <th>Image</th>
-        </tr>
-        {% for g in guide %}
-        <tr>
-            <td>{{ g[1] }}</td>
-            <td><img src="../static/images/{{ g[2] }}" width="200" height="200"></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <!-- <div class="animal-pest" id="pest-1">
+	<!-- Top Navbar -->
+	<header class="container-fluid bg-dark text-white py-3 mb-4">
+		<div class="row">
+			<div class="col-12 d-flex justify-content-between align-items-center">
+				<h1>Animal Pest Guide</h1>
+				<div class="d-flex justify-content-end align-items-center">
+					<button onclick="history.back()" class="btn btn-secondary me-2">Back</button>
+					<a href="{{ url_for('logout') }}" class="btn btn-danger me-2">Logout</a>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- table two columns -->
+	<table>
+		<tr>
+			<th>Description</th>
+			<th>Image</th>
+		</tr>
+		{% for g in guide %}
+		<tr>
+			<td>{{ g[1] }}</td>
+			<td> <a href="{{ url_for('guidedetail', animal_id=g[0]) }}"> <img src="../static/images/{{ g[2] }}"
+						width="200" height="200"></td>
+		</tr>
+		{% endfor %}
+	</table>
+	<!-- <div class="animal-pest" id="pest-1">
         <h2 class="animal-name">Common Name (Animal ID)</h2>
         <img src="path/to/primary-image.jpg" alt="Primary Image" class="primary-image">
         <p><strong>Description:</strong> Short description of the animal pest.</p>
@@ -37,8 +52,9 @@
             
         </div>
     </div> -->
-    <!-- Repeat the above div for each animal pest you want to include in the guide -->
+	<!-- Repeat the above div for each animal pest you want to include in the guide -->
 
-<script src="script.js"></script> <!-- Link your JavaScript file for any dynamic behavior -->
+	<script src="script.js"></script> <!-- Link your JavaScript file for any dynamic behavior -->
 </body>
+
 </html>
