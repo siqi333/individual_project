@@ -37,23 +37,23 @@ INSERT INTO user (user_name, password_hash, role_id) VALUES
 commit;
 
 INSERT INTO user (user_name, password_hash, role_id) VALUES
-('Pest Controllers users1', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
+('PC1', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
 commit;
 
 INSERT INTO user (user_name, password_hash, role_id) VALUES
-('Pest Controllers users2', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
+('PC2', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
 commit;
 
 INSERT INTO user (user_name, password_hash, role_id) VALUES
-('Pest Controllers users3', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
+('PC3', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
 commit;
 
 INSERT INTO user (user_name, password_hash, role_id) VALUES
-('Pest Controllers users4', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
+('PC4', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
 commit;
 
 INSERT INTO user (user_name, password_hash, role_id) VALUES
-('Pest Controllers users5', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
+('PC5', 'e8779a100293a9c3bd09845d9269d09db4d2973042dd3904298de98a65f31cbc', 3);
 commit;
 
 drop table if exists admin_profile;
@@ -113,3 +113,6 @@ CREATE table animal_guide (
     primary_image varchar(255),
     secondary_image varchar(255)
 );
+
+insert into animal_guide values ('4','4','4','4','4','4','4','4','beetle2.jpg','beetle1.jpg');
+commit;

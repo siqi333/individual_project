@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import redirect
+from flask import flash
 import mysql.connector
 import connect
 import re
@@ -41,7 +42,16 @@ def administrator():
     #     return render_template("Administrator.html")
     # else:
     #     return redirect(url_for('login'))
-    return render_template("Administrator.html")
+    cursor = getCursor()
+    cursor.execute(
+		'select * from staff_profile;'
+	)
+    staff_rows = cursor.fetchall()
+    cursor.execute(
+		'select * from controller_profile;'
+	)
+    pestcon_rows = cursor.fetchall()
+    return render_template("Administrator.html", staff_rows=staff_rows, pestcon_rows=pestcon_rows)
 
 @app.route("/pestcontroller")
 def pestcontroller():
@@ -217,6 +227,35 @@ def guideadd():
         return redirect(url_for('guide'))
     return render_template("guideadd.html")
 
+@app.route("/guideupdate", methods=["POST"])
+def guideupdate():
+    description = request.form.get("description")
+    distribution = request.form.get("distribution")
+    size = request.form.get("size")
+    droppings = request.form.get("droppings")
+    footprints = request.form.get("footprints")
+    impacts = request.form.get("impacts")
+    controlmethods = request.form.get("controlmethods")
+    primaryimage = request.files["primaryimage"]
+    secondaryimage = request.files["secondaryimage"]
+    animal_id = request.files.get("animal_id")
+
+    sf1 = secure_filename(primaryimage.filename)
+    sf2 = secure_filename(secondaryimage.filename)
+
+    filepath1 = os.path.join(UPLOAD_FOLDER, sf1)
+    filepath2 = os.path.join(UPLOAD_FOLDER, sf2)
+
+    primaryimage.save(filepath1)
+    secondaryimage.save(filepath2)
+
+    cursor = getCursor()
+    cursor.execute(
+		"update animal_guide set description = %s,distribution = %s,size = %s,droppings = %s,footprints = %s,impacts = %s,control_methods = %s,primary_image = %s,secondary_image = %s where animal_id=%s;",
+        (description, distribution, size, droppings, footprints, impacts, controlmethods, sf1, sf2, animal_id)
+    )
+    return redirect(url_for('guide_manage'))
+
 # show the guide
 @app.route("/guide")
 def guide():
@@ -237,6 +276,34 @@ def guidedetail():
     )
     guide = cursor.fetchone()
     return render_template("PestGuideDetail.html", guide=guide)
+
+@app.route("/guide_manage")
+def guide_manage():
+    cursor = getCursor()
+    cursor.execute(
+        "select animal_id, description, primary_image, secondary_image from animal_guide;"
+    )
+    guide = cursor.fetchall()
+    return render_template("pest_guide_manage.html", guide=guide)
+
+@app.route('/delete_guide/<guide_id>', methods=['POST'])
+def delete_guide(guide_id):
+    cursor = getCursor()
+    cursor.execute(
+		"delete from animal_guide where animal_id=%s;", (guide_id,)
+    )
+    return redirect(url_for('guide_manage'))
+
+@app.route("/guidedetail_manage")
+def guidedetail_manage():
+    animal_id = request.args.get('animal_id')
+    cursor = getCursor()
+    cursor.execute(
+        "select * from animal_guide where animal_id = %s;",
+        (animal_id,)
+    )
+    guide = cursor.fetchone()
+    return render_template("pest_guide_detail_manage.html", guide=guide)
 
 # update controller profile
 @app.route("/update_profile", methods=["GET","POST"])
@@ -368,7 +435,8 @@ def pestcon_update_profile_by_others():
                 (controller_id, user_id, first_name, last_name, address, email, phone, date_joined, status)
             )
             msg = 'profile not exist, added as new'
-            return render_template('Administrator.html', msg3=msg)
+            flash('profile not exist, added as new')
+            return redirect(url_for('administrator'))
         
         # Update profile in database
         update_query = """
@@ -379,7 +447,8 @@ def pestcon_update_profile_by_others():
         cursor.execute(update_query, (first_name, last_name, address, email, phone, date_joined, status, controller_id))
         connection.commit()
         msg = 'Proifle updated'
-        return render_template('Administrator.html', msg3=msg)
+        flash('Proifle updated')
+        return redirect(url_for('administrator'))
 
 @app.route("/staff_update_profile_by_others", methods=["GET", "POST"])
 def staff_update_profile_by_others():
@@ -406,16 +475,16 @@ def staff_update_profile_by_others():
                 'insert into staff_profile(user_id, staff_number, first_name, last_name, email, phone, hire_date, position, department, status) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);', 
                 (user_id, staffnumber, firstname, lastname, email, workphonenumber, hiredate, position, department, status)
             )
-            msg = 'profile not exist, added as new'
-            return render_template('Administrator.html', msg4=msg)
+            flash('profile not exist, added as new')
+            return redirect(url_for('administrator'))
         
         cursor = getCursor()
         cursor.execute(
             'update staff_profile set staff_number = %s, first_name = %s, last_name = %s, email = %s, phone = %s, position = %s, department = %s, hire_date = %s, status = %s where user_id = %s;',
             (staffnumber, firstname, lastname, email, workphonenumber, position, department, hiredate, status, user_id)
         )
-        msg = 'Proifle updated'
-        return render_template('Administrator.html', msg4=msg)
+        flash('Proifle updated')
+        return redirect(url_for('administrator'))
     
     cursor = getCursor()
     cursor.execute(
@@ -425,7 +494,23 @@ def staff_update_profile_by_others():
     account = cursor.fetchone()
     return render_template("staffedit.html", account=account)
 
-# change pest controller password
+@app.route('/delete_controller/<controller_id>', methods=['POST'])
+def delete_controller(controller_id):
+    cursor = getCursor()
+    cursor.execute(
+		"delete from controller_profile where controller_id=%s;", (controller_id,)
+    )
+    return redirect(url_for('administrator'))
+
+@app.route('/delete_staff/<staff_id>', methods=['POST'])
+def delete_staff(staff_id):
+    cursor = getCursor()
+    cursor.execute(
+		"delete from staff_profile where staff_id=%s;", (staff_id,)
+    )
+    return redirect(url_for('administrator'))
+
+# change password for all roles
 @app.route('/changePassword', methods=['POST'])
 def change_password():
     current_user = session['id']

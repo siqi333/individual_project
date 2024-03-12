@@ -27,12 +27,18 @@
 		<tr>
 			<th>Description</th>
 			<th>Image</th>
+			<th>Manage</th>
 		</tr>
 		{% for g in guide %}
 		<tr>
 			<td>{{ g[1] }}</td>
-			<td> <a href="{{ url_for('guidedetail', animal_id=g[0]) }}"> <img src="../static/images/{{ g[2] }}"
+			<td> <a href="{{ url_for('guidedetail_manage', animal_id=g[0]) }}"> <img src="../static/images/{{ g[2] }}"
 						width="200" height="200">
+			</td>
+			<td>
+				<form action="/delete_guide/{{ g[0] }}" method="POST">
+					<input style="color: red;" type="submit" value="Delete">
+				</form>
 			</td>
 		</tr>
 		{% endfor %}
