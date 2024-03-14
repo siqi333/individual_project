@@ -152,8 +152,7 @@ def register():
             return render_template("index.html", msg=msg)
         return render_template("index.html", msg=msg)
     else:
-        msg = 'please attend the page'
-        return render_template("register.html", msg=msg)
+        return render_template("register.html")
 
 
 @app.route("/staffedit", methods=["GET", "POST"])
@@ -336,7 +335,9 @@ def update_profile():
                 (controller_id, user_id, first_name, last_name, address, email, phone, date_joined, status)
             )
             msg = 'profile not exist, added as new'
-            return render_template('PestController.html', msg2=msg)
+            cursor.execute('select * from controller_profile;')
+            pestcon_rows = cursor.fetchall()
+            return render_template('PestController.html', msg2=msg, pestcon_rows=pestcon_rows)
         
         # Update profile in database
         update_query = """
@@ -347,7 +348,9 @@ def update_profile():
         cursor.execute(update_query, (first_name, last_name, address, email, phone, date_joined, status, controller_id))
         connection.commit()
         msg = 'Proifle updated'
-        return render_template('PestController.html', msg2=msg)
+        cursor.execute('select * from controller_profile;')
+        pestcon_rows = cursor.fetchall()
+        return render_template('PestController.html', msg2=msg, pestcon_rows=pestcon_rows)
         
     # Handle GET request
     else:

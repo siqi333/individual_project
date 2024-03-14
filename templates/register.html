@@ -1,64 +1,74 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Registration</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <style>
-    body, html {
-      height: 100%;
-    }
-    .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-  </style>
+	<title>Registration</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<style>
+		body,
+		html {
+			height: 100%;
+			background-image: url('./static/images/background.jpg');
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+
+		.container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+	</style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Registration</h2>
-        <form method="post" action="/register">
-          <div class="form-group row">
-            <label for="username" class="col-sm-3 col-form-label">Username</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="password" class="col-sm-3 col-form-label">Password</label>
-            <div class="col-sm-9">
-              <input type="password" class="form-control" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="email" class="col-sm-3 col-form-label">Email</label>
-            <div class="col-sm-9">
-              <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="role" class="col-sm-3 col-form-label">Role</label>
-            <div class="col-sm-7">
-              <select class="form-control" id="role" name="role">
-                <!-- <option value="1">Administrator</option>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Registration</h2>
+				<form method="post" action="/register">
+					<div class="form-group row">
+						<label for="username" class="col-sm-3 col-form-label">Username</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="username" name="username" required>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="password" class="col-sm-3 col-form-label">Password</label>
+						<div class="col-sm-9">
+							<input type="password" class="form-control" id="password" name="password"
+								pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="email" class="col-sm-3 col-form-label">Email</label>
+						<div class="col-sm-9">
+							<input type="email" class="form-control" id="email" name="email" required>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="role" class="col-sm-3 col-form-label">Role</label>
+						<div class="col-sm-7">
+							<select class="form-control" id="role" name="role">
+								<!-- <option value="1">Administrator</option>
                 <option value="2">Staff</option> -->
-                <option value="3">Pest Controller</option>
-              </select>
-            </div>
-          </div>
-		  <div class="msg" style="color: red;">{{ msg }}</div>
-          <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-        <br>
-        <a href="/" class="btn btn-secondary">Back to Login</a>
-      </div>
-    </div>
-  </div>
+								<option value="3">Pest Controller</option>
+							</select>
+						</div>
+					</div>
+					<div class="msg" style="color: red;">{{ msg }}</div>
+					<button type="submit" class="btn btn-primary">Register</button>
+				</form>
+				<br>
+				<a href="/" class="btn btn-secondary">Back to Login</a>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>

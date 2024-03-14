@@ -53,15 +53,15 @@
 		<h2>Manage Admin Profile</h2>
 		<h3 style="color: red;">{{ msg2 }}</h3>
 		<form action="{{ url_for('update_profile_admin') }}" method="POST" class="row g-3">
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<label for="firstname" class="form-label">First Name:</label>
 				<input type="text" class="form-control" id="firstname" name="firstname" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<label for="lastname" class="form-label">Last Name:</label>
 				<input type="text" class="form-control" id="lastname" name="lastname" required>
 			</div>
-			<div class="col-12">
+			<div class="col-md-4">
 				<label for="adminid" class="form-label">Admin ID:</label>
 				<input type="text" class="form-control" id="pestcontrolleridnumber" name="pestcontrolleridnumber"
 					required>
@@ -70,19 +70,19 @@
 				<label for="address" class="form-label">Address:</label>
 				<input type="text" class="form-control" id="address" name="address" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<label for="email" class="form-label">Email:</label>
 				<input type="email" class="form-control" id="email" name="email" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<label for="phone" class="form-label">Phone Number:</label>
 				<input type="tel" class="form-control" id="phone" name="phone" required>
 			</div>
-			<div class="col-12">
+			<div class="col-md-2">
 				<label for="datejoined" class="form-label">Date Joined:</label>
 				<input type="date" class="form-control" id="datejoined" name="datejoined" required>
 			</div>
-			<div class="col-12">
+			<div class="col-md-2">
 				<label for="status" class="form-label">Status:</label>
 				<select class="form-select" id="status" name="status" required>
 					<option value="Active">Active</option>
@@ -142,20 +142,20 @@
 		{% endif %}
 		{% endwith %} -->
 		<form action="{{ url_for('pestcon_update_profile_by_others') }}" method="POST" class="row g-3">
-			<div class="col-md-6">
+			<div class="col-md-2">
 				<label for="pestcontrolleridnumber" class="form-label">User ID:</label>
 				<input type="text" class="form-control" id="pestcontrolleruserid" name="pestcontrolleruserid" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-2">
 				<label for="pestcontrolleridnumber" class="form-label">Pest Controller ID:</label>
 				<input type="text" class="form-control" id="pestcontrolleridnumber" name="pestcontrolleridnumber"
 					required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<label for="firstname" class="form-label">First Name:</label>
 				<input type="text" class="form-control" id="firstname" name="firstname" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<label for="lastname" class="form-label">Last Name:</label>
 				<input type="text" class="form-control" id="lastname" name="lastname" required>
 			</div>
@@ -163,19 +163,19 @@
 				<label for="address" class="form-label">Address:</label>
 				<input type="text" class="form-control" id="address" name="address" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<label for="email" class="form-label">Email:</label>
 				<input type="email" class="form-control" id="email" name="email" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<label for="phone" class="form-label">Phone Number:</label>
 				<input type="tel" class="form-control" id="phone" name="phone" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-2">
 				<label for="datejoined" class="form-label">Date Joined:</label>
 				<input type="date" class="form-control" id="datejoined" name="datejoined" required>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-2">
 				<label for="status" class="form-label">Status:</label>
 				<select class="form-select" id="status" name="status" required>
 					<option value="Active">Active</option>
@@ -231,14 +231,15 @@
 			<h2>Manage Staff Profile</h2>
 			<h3 style="color: red;">{{ msg4 }}</h3>
 			<form action="{{ url_for('staff_update_profile_by_others') }}" method="POST" class="row g-3">
-				<div class="col-md-4">
+				<div class="col-md-2">
 					<label for="staffnumber" class="form-label">Staff Number:</label>
 					<input type="text" class="form-control" id="staffnumber" name="staffnumber" maxlength="6"
-						pattern="[0-9]{6}">
+						pattern="^[1-9][0-9]{0,5}$">
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-2">
 					<label for="staff_user" class="form-label">Staff User ID:</label>
-					<input type="text" class="form-control" id="staff_user" name="staff_user" maxlength="6"">
+					<input type="text" class="form-control" id="staff_user" name="staff_user" maxlength="6"
+						pattern="^[1-9][0-9]{0,5}$">
 				</div>
 				<div class=" col-md-4">
 					<label for="firstname" class="form-label">First Name:</label>
@@ -258,19 +259,19 @@
 						pattern="^(\(?0\d\)? ?(\d{7}|\d{2,3} ?\d{4})|\(?02\d\)? ?(\d{6,8}|\d{3,4} ?\d{3,4})|0800\s\d{5,8})$"
 						required>
 				</div>
-				<div class="col-md-6">
-					<label for="hiredate" class="form-label">Hire Date:</label>
-					<input type="date" class="form-control" id="hiredate" name="hiredate" required>
-				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<label for="position" class="form-label">Position:</label>
 					<input type="text" class="form-control" id="position" name="position" required>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<label for="department" class="form-label">Department:</label>
 					<input type="text" class="form-control" id="department" name="department" required>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-2">
+					<label for="hiredate" class="form-label">Hire Date:</label>
+					<input type="date" class="form-control" id="hiredate" name="hiredate" required>
+				</div>
+				<div class="col-md-2">
 					<label for="status" class="form-label">Status:</label>
 					<select class="form-select" id="status" name="status" required>
 						<option value="Active">Active</option>
